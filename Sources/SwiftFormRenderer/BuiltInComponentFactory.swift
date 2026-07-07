@@ -43,6 +43,16 @@ public struct BuiltInComponentFactory: ComponentFactory {
             return AnyView(SegmentComponent(descriptor: descriptor, store: state))
         case .rating:
             return AnyView(RatingComponent(descriptor: descriptor, store: state))
+        case .otp:
+            return AnyView(OTPComponent(descriptor: descriptor, store: state))
+        case .currency:
+            return AnyView(CurrencyComponent(descriptor: descriptor, store: state))
+        case .search:
+            return AnyView(SearchComponent(descriptor: descriptor, store: state))
+        case .autocomplete:
+            return AnyView(AutocompleteComponent(descriptor: descriptor, store: state))
+        case .progress:
+            return AnyView(ProgressComponent(descriptor: descriptor, store: state))
         default:
             return nil
         }
@@ -53,5 +63,6 @@ public struct BuiltInComponentFactory: ComponentFactory {
         .text, .secureField, .email, .phone, .textEditor,
         .date, .time, .toggle, .checkbox, .slider,
         .dropdown, .radio, .segment, .rating,
+        .otp, .currency, .search, .autocomplete, .progress,
     ]
 }

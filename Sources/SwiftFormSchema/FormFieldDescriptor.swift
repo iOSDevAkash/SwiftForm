@@ -35,6 +35,19 @@ public struct FormFieldDescriptor: FieldSchema, Codable, Hashable {
         self.options = options
         self.metadata = metadata
     }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(FormFieldIdentifier.self, forKey: .id)
+        componentType = try container.decode(ComponentType.self, forKey: .componentType)
+        title = try container.decode(String.self, forKey: .title)
+        subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
+        placeholder = try container.decodeIfPresent(String.self, forKey: .placeholder)
+        isRequired = try container.decodeIfPresent(Bool.self, forKey: .isRequired) ?? false
+        defaultValue = try container.decodeIfPresent(AnyCodableValue.self, forKey: .defaultValue)
+        options = try container.decodeIfPresent([FieldOption].self, forKey: .options)
+        metadata = try container.decodeIfPresent([String: AnyCodableValue].self, forKey: .metadata)
+    }
 }
 
 /// A selectable option for dropdown, radio, segment, etc.
@@ -54,5 +67,13 @@ public struct FieldOption: Sendable, Codable, Hashable, Identifiable {
         self.label = label
         self.value = value
         self.isDisabled = isDisabled
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        label = try container.decode(String.self, forKey: .label)
+        value = try container.decode(AnyCodableValue.self, forKey: .value)
+        isDisabled = try container.decodeIfPresent(Bool.self, forKey: .isDisabled) ?? false
     }
 }

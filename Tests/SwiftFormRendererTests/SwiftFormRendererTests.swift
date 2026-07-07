@@ -66,7 +66,7 @@ struct SwiftFormRendererTests {
         #expect(registry.factory(for: .toggle) != nil)
         #expect(registry.factory(for: .slider) != nil)
         #expect(registry.factory(for: .rating) != nil)
-        #expect(registry.registeredTypes.count == 14)
+        #expect(registry.registeredTypes.count == 19)
     }
 
     @MainActor

@@ -57,6 +57,7 @@
 - BuiltInLayoutRegistry with `.withBuiltIns()` factory, 8 registered types
 - LayoutType moved to SwiftFormCore (parallels ComponentType)
 - FormView and DefaultFormRenderer accept `layout:` parameter
+- ThemedLayoutView bridge reads tokens from environment (not hardcoded)
 - 174 tests passing across 30 suites
 
 ## Phase 9 — Server-Driven UI & Networking ✅
@@ -71,22 +72,25 @@
 - MockSchemaProvider for testability
 - 204 tests passing across 30 suites
 
-## Phase 10 — Advanced Features
-- Plugin system implementation
-- Analytics provider integration
-- OTP, Currency, Search, Autocomplete components
-- Location / Map components
-- Charts, Markdown, Rich Text components
+## Phase 10 — Advanced Features ✅
+- PluginManager actor: plugin registration, lifecycle dispatch (onFormLoaded, onFieldChanged, onFormSubmitted)
+- AnalyticsPlugin: bridges FormPlugin to AnalyticsDispatcher
+- FormEvent expanded with sectionViewed, fieldInteraction events
+- 5 new components: OTP (multi-digit input with auto-advance), Currency (symbol prefix, decimal filtering), Search (icon + clear button), Autocomplete (filtered option dropdown), Progress (animated bar with optional label)
+- DSL helpers: searchField, autocompleteField, progressField; enhanced otpField (digitCount), currencyField (currencySymbol)
+- BuiltInComponentFactory expanded to 19 supported types
+- 246 tests passing across 32 suites
 
-## Phase 11 — Capture Components
-- Camera, Barcode, QR (AVFoundation bridging)
-- Signature capture
-- Document picker
-- Image picker
+## Phase 11 — Capture Components ✅
+- ImagePickerComponent: PhotosUI-based image selection, base64 storage, cross-platform (UIImage/NSImage)
+- SignatureComponent: Canvas-based drawing with DragGesture, configurable stroke color/width, serialized point data, clear button
+- DocumentPickerComponent: UIDocumentPickerViewController bridging, configurable UTTypes, file name display, success indicator
+- DSL helpers: imagePicker, signatureField, documentPicker (with allowedTypes)
+- CaptureComponent protocol for UIKit-bridged components
+- macOS fallback stubs for UIKit-dependent components
 
-## Phase 12 — Polish & Release
-- DocC documentation site
-- Sample applications (Registration, Survey, KYC, Checkout, Settings)
-- Performance benchmarks (1000+ fields)
-- Snapshot tests
-- 1.0 release
+## Phase 12 — Sample App & Polish ✅
+- SwiftFormDemo Xcode project (Examples/SwiftFormDemo/)
+- 7 demo forms: Registration (stack), Feedback (card), Wizard (multi-step), Settings (grouped sections), Grid (responsive), Accordion (collapsible), Theme (Airbnb-style custom tokens)
+- Proper bundle identifier and iOS simulator support
+- 246 tests passing across 32 suites

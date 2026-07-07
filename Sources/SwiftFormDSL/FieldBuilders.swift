@@ -71,13 +71,15 @@ public func phoneField(
 public func otpField(
     _ id: String,
     title: String,
+    digitCount: Int = 6,
     required: Bool = false
 ) -> FormFieldDescriptor {
     FormFieldDescriptor(
         id: FormFieldIdentifier(id),
         componentType: .otp,
         title: title,
-        isRequired: required
+        isRequired: required,
+        metadata: digitCount != 6 ? ["digitCount": .int(digitCount)] : nil
     )
 }
 
@@ -85,6 +87,7 @@ public func currencyField(
     _ id: String,
     title: String,
     placeholder: String? = nil,
+    currencySymbol: String = "$",
     required: Bool = false
 ) -> FormFieldDescriptor {
     FormFieldDescriptor(
@@ -92,7 +95,8 @@ public func currencyField(
         componentType: .currency,
         title: title,
         placeholder: placeholder,
-        isRequired: required
+        isRequired: required,
+        metadata: currencySymbol != "$" ? ["currencySymbol": .string(currencySymbol)] : nil
     )
 }
 
@@ -258,5 +262,97 @@ public func option(
         label: label,
         value: value ?? .string(id),
         isDisabled: disabled
+    )
+}
+
+// MARK: - Search & Autocomplete
+
+public func searchField(
+    _ id: String,
+    title: String,
+    placeholder: String? = nil,
+    required: Bool = false
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .search,
+        title: title,
+        placeholder: placeholder,
+        isRequired: required
+    )
+}
+
+public func autocompleteField(
+    _ id: String,
+    title: String,
+    options: [FieldOption],
+    placeholder: String? = nil,
+    required: Bool = false
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .autocomplete,
+        title: title,
+        placeholder: placeholder,
+        isRequired: required,
+        options: options
+    )
+}
+
+public func progressField(
+    _ id: String,
+    title: String,
+    defaultValue: Double = 0,
+    showLabel: Bool = true
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .progress,
+        title: title,
+        defaultValue: .double(defaultValue),
+        metadata: !showLabel ? ["showLabel": .bool(false)] : nil
+    )
+}
+
+// MARK: - Capture Fields
+
+public func imagePicker(
+    _ id: String,
+    title: String,
+    required: Bool = false
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .imagePicker,
+        title: title,
+        isRequired: required
+    )
+}
+
+public func signatureField(
+    _ id: String,
+    title: String,
+    required: Bool = false
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .signature,
+        title: title,
+        isRequired: required
+    )
+}
+
+public func documentPicker(
+    _ id: String,
+    title: String,
+    allowedTypes: String? = nil,
+    required: Bool = false
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .documentPicker,
+        title: title,
+        isRequired: required,
+        metadata: allowedTypes.map { ["allowedTypes": .string($0)] }
     )
 }

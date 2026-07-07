@@ -36,6 +36,18 @@ struct SwiftFormDemoApp: App {
                                 .navigationTitle("Accordion")
                         }
                     }
+                    Section("Advanced") {
+                        NavigationLink("Advanced Components") {
+                            AdvancedComponentsForm()
+                                .navigationTitle("Advanced")
+                        }
+                    }
+                    Section("Server-Driven UI") {
+                        NavigationLink("JSON-Driven Form") {
+                            JSONDrivenFormView()
+                                .navigationTitle("JSON Form")
+                        }
+                    }
                     Section("Theming") {
                         NavigationLink("Airbnb Theme") {
                             ThemeShowcase()

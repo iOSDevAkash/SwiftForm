@@ -10,6 +10,8 @@ public enum FormEvent: Sendable, Hashable {
     case formSubmitted(formID: String)
     case formSubmissionFailed(formID: String, reason: String)
     case formAbandoned(formID: String)
+    case sectionViewed(formID: String, sectionID: String)
+    case fieldInteraction(FormFieldIdentifier, action: String)
 }
 
 /// Provider for analytics event tracking.

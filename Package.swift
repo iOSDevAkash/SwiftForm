@@ -196,7 +196,7 @@ let package = Package(
 
         .target(
             name: "SwiftFormAnalytics",
-            dependencies: ["SwiftFormCore"]
+            dependencies: ["SwiftFormCore", "SwiftFormPlugins"]
         ),
 
         // MARK: - Platform Bridging
@@ -207,6 +207,7 @@ let package = Package(
                 "SwiftFormCore",
                 "SwiftFormSchema",
                 "SwiftFormState",
+                "SwiftFormTheme",
                 "SwiftFormComponents",
             ]
         ),
@@ -296,7 +297,7 @@ let package = Package(
         ),
         .testTarget(
             name: "SwiftFormAnalyticsTests",
-            dependencies: ["SwiftFormAnalytics"]
+            dependencies: ["SwiftFormAnalytics", "SwiftFormPlugins"]
         ),
         .testTarget(
             name: "SwiftFormNetworkingTests",

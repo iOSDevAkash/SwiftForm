@@ -104,4 +104,84 @@ struct SwiftFormDSLFullTests {
         #expect(form.sections[0].fields[1].defaultValue?.boolValue == true)
         #expect(form.sections[0].fields[2].defaultValue?.doubleValue == 0.5)
     }
+
+    // MARK: - Phase 10 DSL Helpers
+
+    @Test func searchFieldDSL() {
+        let field = searchField("q", title: "Search", placeholder: "Find...")
+        #expect(field.componentType == .search)
+        #expect(field.placeholder == "Find...")
+    }
+
+    @Test func autocompleteFieldDSL() {
+        let field = autocompleteField(
+            "city",
+            title: "City",
+            options: [
+                option("nyc", label: "New York"),
+                option("sf", label: "San Francisco"),
+            ],
+            placeholder: "Type city..."
+        )
+        #expect(field.componentType == .autocomplete)
+        #expect(field.options?.count == 2)
+    }
+
+    @Test func otpFieldDSLWithDigitCount() {
+        let field = otpField("code", title: "Code", digitCount: 4, required: true)
+        #expect(field.componentType == .otp)
+        #expect(field.metadata?["digitCount"]?.intValue == 4)
+        #expect(field.isRequired)
+    }
+
+    @Test func otpFieldDSLDefaultDigitCount() {
+        let field = otpField("code", title: "Code")
+        #expect(field.metadata == nil)
+    }
+
+    @Test func currencyFieldDSLWithSymbol() {
+        let field = currencyField("price", title: "Price", currencySymbol: "€", required: true)
+        #expect(field.componentType == .currency)
+        #expect(field.metadata?["currencySymbol"]?.stringValue == "€")
+    }
+
+    @Test func currencyFieldDSLDefaultSymbol() {
+        let field = currencyField("price", title: "Price")
+        #expect(field.metadata == nil)
+    }
+
+    @Test func progressFieldDSL() {
+        let field = progressField("prog", title: "Progress", defaultValue: 0.5)
+        #expect(field.componentType == .progress)
+        #expect(field.defaultValue?.doubleValue == 0.5)
+    }
+
+    @Test func progressFieldHideLabel() {
+        let field = progressField("prog", title: "Progress", showLabel: false)
+        #expect(field.metadata?["showLabel"]?.boolValue == false)
+    }
+
+    // MARK: - Phase 11 DSL Helpers
+
+    @Test func imagePickerDSL() {
+        let field = imagePicker("photo", title: "Photo", required: true)
+        #expect(field.componentType == .imagePicker)
+        #expect(field.isRequired)
+    }
+
+    @Test func signatureFieldDSL() {
+        let field = signatureField("sig", title: "Signature")
+        #expect(field.componentType == .signature)
+    }
+
+    @Test func documentPickerDSL() {
+        let field = documentPicker("doc", title: "Upload", allowedTypes: "pdf,txt")
+        #expect(field.componentType == .documentPicker)
+        #expect(field.metadata?["allowedTypes"]?.stringValue == "pdf,txt")
+    }
+
+    @Test func documentPickerDSLNoTypes() {
+        let field = documentPicker("doc", title: "Upload")
+        #expect(field.metadata == nil)
+    }
 }

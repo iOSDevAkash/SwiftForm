@@ -28,4 +28,15 @@ public struct FormDescriptor: FormSchema, Codable, Hashable {
         self.submitTitle = submitTitle
         self.metadata = metadata
     }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        title = try container.decode(String.self, forKey: .title)
+        version = try container.decodeIfPresent(Version.self, forKey: .version) ?? Version(1, 0, 0)
+        sections = try container.decodeIfPresent([FormSectionDescriptor].self, forKey: .sections) ?? []
+        subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
+        submitTitle = try container.decodeIfPresent(String.self, forKey: .submitTitle)
+        metadata = try container.decodeIfPresent([String: AnyCodableValue].self, forKey: .metadata)
+    }
 }
