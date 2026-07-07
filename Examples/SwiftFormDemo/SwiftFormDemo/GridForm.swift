@@ -3,6 +3,9 @@ import SwiftForm
 
 struct GridForm: View {
 
+    @State private var showResult = false
+    @State private var submittedValues: [FormFieldIdentifier: AnyCodableValue] = [:]
+
     private let schema = SwiftFormDSL.form(
         "contact",
         title: "Contact Info",
@@ -25,9 +28,12 @@ struct GridForm: View {
 
     var body: some View {
         FormView(schema: schema, layout: ResponsiveGridLayout()) { values in
-            print("Contact saved:")
-            for (key, value) in values {
-                print("  \(key.rawValue): \(value)")
+            submittedValues = values
+            showResult = true
+        }
+        .sheet(isPresented: $showResult) {
+            SubmissionResultView(title: "Contact", values: submittedValues) {
+                showResult = false
             }
         }
     }

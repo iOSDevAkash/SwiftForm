@@ -3,6 +3,9 @@ import SwiftForm
 
 struct AdvancedComponentsForm: View {
 
+    @State private var showResult = false
+    @State private var submittedValues: [FormFieldIdentifier: AnyCodableValue] = [:]
+
     private let schema = SwiftFormDSL.form(
         "advanced",
         title: "Advanced Components",
@@ -40,9 +43,12 @@ struct AdvancedComponentsForm: View {
 
     var body: some View {
         FormView(schema: schema) { values in
-            print("Advanced form submitted:")
-            for (key, value) in values {
-                print("  \(key.rawValue): \(value)")
+            submittedValues = values
+            showResult = true
+        }
+        .sheet(isPresented: $showResult) {
+            SubmissionResultView(title: "Advanced", values: submittedValues) {
+                showResult = false
             }
         }
     }

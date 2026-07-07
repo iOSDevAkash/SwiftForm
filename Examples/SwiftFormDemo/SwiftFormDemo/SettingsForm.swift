@@ -3,6 +3,9 @@ import SwiftForm
 
 struct SettingsForm: View {
 
+    @State private var showResult = false
+    @State private var submittedValues: [FormFieldIdentifier: AnyCodableValue] = [:]
+
     private let schema = SwiftFormDSL.form(
         "settings",
         title: "Settings",
@@ -25,9 +28,12 @@ struct SettingsForm: View {
 
     var body: some View {
         FormView(schema: schema, layout: GroupedSectionsLayout()) { values in
-            print("Settings saved:")
-            for (key, value) in values {
-                print("  \(key.rawValue): \(value)")
+            submittedValues = values
+            showResult = true
+        }
+        .sheet(isPresented: $showResult) {
+            SubmissionResultView(title: "Settings", values: submittedValues) {
+                showResult = false
             }
         }
     }

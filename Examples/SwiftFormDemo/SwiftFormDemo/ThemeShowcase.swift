@@ -45,6 +45,9 @@ struct AirbnbRadiusTokens: RadiusTokens, Sendable {
 
 struct ThemeShowcase: View {
 
+    @State private var showResult = false
+    @State private var submittedValues: [FormFieldIdentifier: AnyCodableValue] = [:]
+
     private let schema = SwiftFormDSL.form(
         "themed",
         title: "List Your Space",
@@ -90,11 +93,14 @@ struct ThemeShowcase: View {
 
     var body: some View {
         FormView(schema: schema) { values in
-            print("Listing submitted:")
-            for (key, value) in values {
-                print("  \(key.rawValue): \(value)")
-            }
+            submittedValues = values
+            showResult = true
         }
         .environment(\.themeProvider, airbnbTheme)
+        .sheet(isPresented: $showResult) {
+            SubmissionResultView(title: "Listing", values: submittedValues) {
+                showResult = false
+            }
+        }
     }
 }

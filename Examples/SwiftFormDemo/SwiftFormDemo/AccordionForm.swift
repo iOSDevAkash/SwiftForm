@@ -3,6 +3,9 @@ import SwiftForm
 
 struct AccordionForm: View {
 
+    @State private var showResult = false
+    @State private var submittedValues: [FormFieldIdentifier: AnyCodableValue] = [:]
+
     private let schema = SwiftFormDSL.form(
         "profile",
         title: "Complete Profile",
@@ -34,9 +37,12 @@ struct AccordionForm: View {
 
     var body: some View {
         FormView(schema: schema, layout: AccordionLayout()) { values in
-            print("Profile saved:")
-            for (key, value) in values {
-                print("  \(key.rawValue): \(value)")
+            submittedValues = values
+            showResult = true
+        }
+        .sheet(isPresented: $showResult) {
+            SubmissionResultView(title: "Profile", values: submittedValues) {
+                showResult = false
             }
         }
     }

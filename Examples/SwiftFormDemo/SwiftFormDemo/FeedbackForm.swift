@@ -3,6 +3,9 @@ import SwiftForm
 
 struct FeedbackForm: View {
 
+    @State private var showResult = false
+    @State private var submittedValues: [FormFieldIdentifier: AnyCodableValue] = [:]
+
     private let schema = SwiftFormDSL.form(
         "feedback",
         title: "Send Feedback",
@@ -28,9 +31,12 @@ struct FeedbackForm: View {
 
     var body: some View {
         FormView(schema: schema, layout: CardLayout()) { values in
-            print("Feedback submitted:")
-            for (key, value) in values {
-                print("  \(key.rawValue): \(value)")
+            submittedValues = values
+            showResult = true
+        }
+        .sheet(isPresented: $showResult) {
+            SubmissionResultView(title: "Feedback", values: submittedValues) {
+                showResult = false
             }
         }
     }

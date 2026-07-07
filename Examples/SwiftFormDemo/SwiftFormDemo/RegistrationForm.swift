@@ -3,6 +3,9 @@ import SwiftForm
 
 struct RegistrationForm: View {
 
+    @State private var showResult = false
+    @State private var submittedValues: [FormFieldIdentifier: AnyCodableValue] = [:]
+
     private let schema = SwiftFormDSL.form(
         "registration",
         title: "Create Account",
@@ -28,9 +31,12 @@ struct RegistrationForm: View {
 
     var body: some View {
         FormView(schema: schema) { values in
-            print("Registration submitted:")
-            for (key, value) in values {
-                print("  \(key.rawValue): \(value)")
+            submittedValues = values
+            showResult = true
+        }
+        .sheet(isPresented: $showResult) {
+            SubmissionResultView(title: "Registration", values: submittedValues) {
+                showResult = false
             }
         }
     }

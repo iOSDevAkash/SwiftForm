@@ -5,6 +5,8 @@ struct JSONDrivenFormView: View {
 
     @State private var loadState: JSONFormLoadState = .loading
     @State private var showJSON = false
+    @State private var showResult = false
+    @State private var submittedValues: [FormFieldIdentifier: AnyCodableValue] = [:]
 
     var body: some View {
         Group {
@@ -17,7 +19,8 @@ struct JSONDrivenFormView: View {
                         jsonPreview(json)
                     }
                     FormView(schema: descriptor) { values in
-                        printSubmission(values)
+                        submittedValues = values
+                        showResult = true
                     }
                 }
                 .toolbar {
@@ -32,6 +35,11 @@ struct JSONDrivenFormView: View {
             }
         }
         .task { decodeSchema() }
+        .sheet(isPresented: $showResult) {
+            SubmissionResultView(title: "JSON Form", values: submittedValues) {
+                showResult = false
+            }
+        }
     }
 
     private func jsonPreview(_ json: String) -> some View {
@@ -72,14 +80,6 @@ struct JSONDrivenFormView: View {
             loadState = .loaded(descriptor, pretty)
         } catch {
             loadState = .error(error.localizedDescription)
-        }
-    }
-
-    private func printSubmission(_ values: [FormFieldIdentifier: AnyCodableValue]) {
-        let outputEncoder = FormOutputEncoder()
-        if let data = try? outputEncoder.encode(values),
-           let json = String(data: data, encoding: .utf8) {
-            print("JSON form output:\n\(json)")
         }
     }
 
