@@ -1,0 +1,15 @@
+--swiftversion 6.0
+--minversion 0.54
+--indent 4
+--indentcase false
+--trimwhitespace always
+--voidtype void
+--wraparguments before-first
+--wrapparameters before-first
+--wrapcollections before-first
+--maxwidth 120
+--semicolons never
+--stripunusedargs closure-only
+--self remove
+--importgrouping testable-bottom
+--header strip

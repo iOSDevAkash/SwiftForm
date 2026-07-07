@@ -1,6 +1,24 @@
 import Testing
 @testable import SwiftForm
 
-@Test func example() async throws {
-    // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+@Suite("SwiftForm Umbrella")
+struct SwiftFormTests {
+
+    @Test func umbrellaReExportsCore() {
+        let id: FormFieldIdentifier = "test"
+        #expect(id.rawValue == "test")
+    }
+
+    @Test func umbrellaReExportsComponentType() {
+        #expect(ComponentType.text.rawValue == "text")
+    }
+
+    @Test func umbrellaReExportsState() {
+        #expect(InteractionState.normal.rawValue == "normal")
+    }
+
+    @Test func umbrellaReExportsValidation() {
+        let result = ValidationResult.valid
+        #expect(result.isValid == true)
+    }
 }
