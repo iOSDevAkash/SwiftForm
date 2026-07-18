@@ -283,10 +283,40 @@ struct SwiftFormComponentsTests {
         #expect(types.contains(.search))
         #expect(types.contains(.autocomplete))
         #expect(types.contains(.progress))
+        #expect(types.contains(.location))
+        #expect(types.contains(.chart))
+        #expect(types.contains(.markdown))
     }
 
     @MainActor
     @Test func builtInFactoryTotalSupportedCount() {
-        #expect(BuiltInComponentFactory.supportedTypes.count == 19)
+        #expect(BuiltInComponentFactory.supportedTypes.count == 24)
+    }
+
+    @MainActor
+    @Test func locationComponentCreation() {
+        let descriptor = FormFieldDescriptor(id: "loc", componentType: .location, title: "Location")
+        let store = FormStateStore()
+        store.register(id: descriptor.id)
+        let component = LocationPickerComponent(descriptor: descriptor, store: store)
+        #expect(component.descriptor.componentType == .location)
+    }
+
+    @MainActor
+    @Test func chartComponentCreation() {
+        let descriptor = FormFieldDescriptor(id: "ch", componentType: .chart, title: "Chart")
+        let store = FormStateStore()
+        store.register(id: descriptor.id)
+        let component = ChartComponent(descriptor: descriptor, store: store)
+        #expect(component.descriptor.componentType == .chart)
+    }
+
+    @MainActor
+    @Test func markdownComponentCreation() {
+        let descriptor = FormFieldDescriptor(id: "md", componentType: .markdown, title: "MD", defaultValue: .string("**bold**"))
+        let store = FormStateStore()
+        store.register(id: descriptor.id)
+        let component = MarkdownComponent(descriptor: descriptor, store: store)
+        #expect(component.descriptor.componentType == .markdown)
     }
 }

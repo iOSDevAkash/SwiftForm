@@ -53,6 +53,12 @@ public struct BuiltInComponentFactory: ComponentFactory {
             return AnyView(AutocompleteComponent(descriptor: descriptor, store: state))
         case .progress:
             return AnyView(ProgressComponent(descriptor: descriptor, store: state))
+        case .location, .map:
+            return AnyView(LocationPickerComponent(descriptor: descriptor, store: state))
+        case .chart:
+            return AnyView(ChartComponent(descriptor: descriptor, store: state))
+        case .markdown, .richText:
+            return AnyView(MarkdownComponent(descriptor: descriptor, store: state))
         default:
             return nil
         }
@@ -64,5 +70,6 @@ public struct BuiltInComponentFactory: ComponentFactory {
         .date, .time, .toggle, .checkbox, .slider,
         .dropdown, .radio, .segment, .rating,
         .otp, .currency, .search, .autocomplete, .progress,
+        .location, .map, .chart, .markdown, .richText,
     ]
 }

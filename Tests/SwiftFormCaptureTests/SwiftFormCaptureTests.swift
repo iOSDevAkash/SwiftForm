@@ -1,6 +1,7 @@
 import Testing
 @testable import SwiftFormCapture
 @testable import SwiftFormSchema
+@testable import SwiftFormState
 import SwiftFormCore
 
 @Suite("SwiftFormCapture")
@@ -60,4 +61,45 @@ struct SwiftFormCaptureTests {
         #expect(field.metadata?["strokeColor"]?.stringValue == "#000000")
         #expect(field.metadata?["lineWidth"]?.doubleValue == 3.0)
     }
+
+    @Test func cameraComponentType() {
+        let field = FormFieldDescriptor(
+            id: "cam",
+            componentType: .camera,
+            title: "Camera"
+        )
+        #expect(field.componentType == .camera)
+    }
+
+    @Test func barcodeComponentType() {
+        let field = FormFieldDescriptor(
+            id: "code",
+            componentType: .barcode,
+            title: "Barcode"
+        )
+        #expect(field.componentType == .barcode)
+    }
+
+    @Test func qrComponentType() {
+        let field = FormFieldDescriptor(
+            id: "qrCode",
+            componentType: .qr,
+            title: "QR Code"
+        )
+        #expect(field.componentType == .qr)
+    }
+
+    @MainActor
+    @Test func captureFactoryHandlesSupportedTypes() {
+        let factory = CaptureComponentFactory()
+        let store = FormStateStore()
+        let field = FormFieldDescriptor(id: "photo", componentType: .imagePicker, title: "Photo")
+        store.register(id: field.id)
+
+        let view = factory.makeView(for: field, state: store)
+        #expect(view != nil)
+        #expect(CaptureComponentFactory.supportedTypes.contains(.camera))
+        #expect(CaptureComponentFactory.supportedTypes.contains(.barcode))
+    }
 }
+

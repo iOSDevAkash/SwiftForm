@@ -356,3 +356,114 @@ public func documentPicker(
         metadata: allowedTypes.map { ["allowedTypes": .string($0)] }
     )
 }
+
+public func cameraField(
+    _ id: String,
+    title: String,
+    required: Bool = false
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .camera,
+        title: title,
+        isRequired: required
+    )
+}
+
+public func barcodeField(
+    _ id: String,
+    title: String,
+    required: Bool = false
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .barcode,
+        title: title,
+        isRequired: required
+    )
+}
+
+public func qrField(
+    _ id: String,
+    title: String,
+    required: Bool = false
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .qr,
+        title: title,
+        isRequired: required
+    )
+}
+
+// MARK: - Location, Chart & Text Preview
+
+public func locationField(
+    _ id: String,
+    title: String,
+    placeholder: String? = nil,
+    required: Bool = false
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .location,
+        title: title,
+        placeholder: placeholder,
+        isRequired: required
+    )
+}
+
+public func mapField(
+    _ id: String,
+    title: String,
+    placeholder: String? = nil,
+    required: Bool = false
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .map,
+        title: title,
+        placeholder: placeholder,
+        isRequired: required
+    )
+}
+
+public func chartField(
+    _ id: String,
+    title: String,
+    options: [FieldOption] = []
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .chart,
+        title: title,
+        options: options
+    )
+}
+
+public func markdownField(
+    _ id: String,
+    title: String,
+    content: String
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .markdown,
+        title: title,
+        defaultValue: .string(content)
+    )
+}
+
+public func richText(
+    _ id: String,
+    title: String,
+    content: String
+) -> FormFieldDescriptor {
+    FormFieldDescriptor(
+        id: FormFieldIdentifier(id),
+        componentType: .richText,
+        title: title,
+        defaultValue: .string(content)
+    )
+}
+
