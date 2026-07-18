@@ -277,7 +277,7 @@ let package = Package(
         ),
         .testTarget(
             name: "SwiftFormComponentsTests",
-            dependencies: ["SwiftFormComponents"]
+            dependencies: ["SwiftFormComponents", "SwiftFormRenderer", "SwiftFormState"]
         ),
         .testTarget(
             name: "SwiftFormLayoutsTests",
@@ -311,7 +311,13 @@ let package = Package(
         ),
         .testTarget(
             name: "SwiftFormCaptureTests",
-            dependencies: ["SwiftFormCapture"]
+            dependencies: [
+                "SwiftFormCapture",
+                "SwiftFormCore",
+                "SwiftFormSchema",
+                "SwiftFormState",
+                "SwiftFormRenderer",
+            ]
         ),
         .testTarget(
             name: "SwiftFormTests",
